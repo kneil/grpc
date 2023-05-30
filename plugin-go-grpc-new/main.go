@@ -33,11 +33,11 @@ func (k *Multer) Put(key string, value int64, a multer.AddHelper) error {
 		return err
 	}
 
-	return ioutil.WriteFile("kv_"+key, buf, 0644)
+	return ioutil.WriteFile("kv2_"+key, buf, 0644)
 }
 
 func (k *Multer) Get(key string) (int64, error) {
-	dataRaw, err := ioutil.ReadFile("kv_" + key)
+	dataRaw, err := ioutil.ReadFile("kv2_" + key)
 	if err != nil {
 		return 0, err
 	}
