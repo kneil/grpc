@@ -1,0 +1,2 @@
+docker run -it -v $PWD:/tmp/repo knesser2/golang:grpc-dev.1.0.1
+

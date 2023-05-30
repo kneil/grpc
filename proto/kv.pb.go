@@ -7,7 +7,7 @@
 // 	protoc        v3.15.8
 // source: proto/kv.proto
 
-package proto
+package proto 
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
