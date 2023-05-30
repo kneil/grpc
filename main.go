@@ -13,6 +13,8 @@ import (
 
 	"github.com/hashicorp/go-plugin"
 	"github.com/hashicorp/go-plugin/examples/bidirectional/shared"
+	"github.com/hashicorp/go-plugin/examples/bidirectional/multer"
+
 )
 
 type addHelper struct{}
@@ -33,7 +35,18 @@ func main() {
 		AllowedProtocols: []plugin.Protocol{
 			plugin.ProtocolNetRPC, plugin.ProtocolGRPC},
 	})
+
+	clientMulter := plugin.NewClient(&plugin.ClientConfig{
+		HandshakeConfig: multer.Handshake,
+		Plugins:         multer.PluginMap,
+		Cmd:             exec.Command("sh", "-c", os.Getenv("MULTER_PLUGIN")),
+		AllowedProtocols: []plugin.Protocol{
+			plugin.ProtocolNetRPC, plugin.ProtocolGRPC},
+	})
+
 	defer client.Kill()
+	defer clientMulter.Kill()
+
 
 	// Connect via RPC
 	rpcClient, err := client.Client()
@@ -49,9 +62,28 @@ func main() {
 		os.Exit(1)
 	}
 
+
+	// For multer:
+
+	// Connect via RPC
+	rpcClientMulter, err := clientMulter.Client()
+	if err != nil {
+		fmt.Println("Error:", err.Error())
+		os.Exit(1)
+	}
+
+	// Request the plugin
+	rawMult, err := rpcClientMulter.Dispense("multer")
+	if err != nil {
+		fmt.Println("Error:", err.Error())
+		os.Exit(1)
+	}
+
 	// We should have a Counter store now! This feels like a normal interface
 	// implementation but is in fact over an RPC connection.
 	counter := raw.(shared.Counter)
+
+	multer := rawMult.(multer.Multer)
 
 	os.Args = os.Args[1:]
 	switch os.Args[0] {
@@ -72,6 +104,28 @@ func main() {
 		}
 
 		err = counter.Put(os.Args[1], int64(i), &addHelper{})
+		if err != nil {
+			fmt.Println("Error:", err.Error())
+			os.Exit(1)
+		}
+
+	case "mget":
+		result, err := multer.Get(os.Args[1])
+		if err != nil {
+			fmt.Println("Error:", err.Error())
+			os.Exit(1)
+		}
+
+		fmt.Println(result)
+
+	case "mput":
+		i, err := strconv.Atoi(os.Args[2])
+		if err != nil {
+			fmt.Println("Error:", err.Error())
+			os.Exit(1)
+		}
+
+		err = multer.Put(os.Args[1], int64(i), &addHelper{})
 		if err != nil {
 			fmt.Println("Error:", err.Error())
 			os.Exit(1)
