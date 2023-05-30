@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.15.8
-// source: proto/kv.proto
+// source: protob/kv.proto
 
-package protob
+package  protob
 
 import (
 	context "context"
@@ -36,7 +36,7 @@ func NewMulterClient(cc grpc.ClientConnInterface) MulterClient {
 
 func (c *multerClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
 	out := new(GetResponse)
-	err := c.cc.Invoke(ctx, "/proto.Multer/Get", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protob.Multer/Get", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (c *multerClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.Cal
 
 func (c *multerClient) Put(ctx context.Context, in *PutRequest, opts ...grpc.CallOption) (*Empty, error) {
 	out := new(Empty)
-	err := c.cc.Invoke(ctx, "/proto.Multer/Put", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protob.Multer/Put", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -92,7 +92,7 @@ func _Multer_Get_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.Multer/Get",
+		FullMethod: "/protob.Multer/Get",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MulterServer).Get(ctx, req.(*GetRequest))
@@ -110,7 +110,7 @@ func _Multer_Put_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.Multer/Put",
+		FullMethod: "/protob.Multer/Put",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MulterServer).Put(ctx, req.(*PutRequest))
@@ -122,7 +122,7 @@ func _Multer_Put_Handler(srv interface{}, ctx context.Context, dec func(interfac
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Multer_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "proto.Multer",
+	ServiceName: "protob.Multer",
 	HandlerType: (*MulterServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -135,14 +135,14 @@ var Multer_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/kv.proto",
+	Metadata: "protob/kv.proto",
 }
 
 // AddHelperClient is the client API for AddHelper service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AddHelperClient interface {
-	Sum(ctx context.Context, in *SumRequest, opts ...grpc.CallOption) (*SumResponse, error)
+	Sum(ctx context.Context, in *MultRequest, opts ...grpc.CallOption) (*MultResponse, error)
 }
 
 type addHelperClient struct {
@@ -153,9 +153,9 @@ func NewAddHelperClient(cc grpc.ClientConnInterface) AddHelperClient {
 	return &addHelperClient{cc}
 }
 
-func (c *addHelperClient) Sum(ctx context.Context, in *SumRequest, opts ...grpc.CallOption) (*SumResponse, error) {
-	out := new(SumResponse)
-	err := c.cc.Invoke(ctx, "/proto.AddHelper/Sum", in, out, opts...)
+func (c *addHelperClient) Sum(ctx context.Context, in *MultRequest, opts ...grpc.CallOption) (*MultResponse, error) {
+	out := new(MultResponse)
+	err := c.cc.Invoke(ctx, "/protob.AddHelper/Sum", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -166,14 +166,14 @@ func (c *addHelperClient) Sum(ctx context.Context, in *SumRequest, opts ...grpc.
 // All implementations should embed UnimplementedAddHelperServer
 // for forward compatibility
 type AddHelperServer interface {
-	Sum(context.Context, *SumRequest) (*SumResponse, error)
+	Sum(context.Context, *MultRequest) (*MultResponse, error)
 }
 
 // UnimplementedAddHelperServer should be embedded to have forward compatible implementations.
 type UnimplementedAddHelperServer struct {
 }
 
-func (UnimplementedAddHelperServer) Sum(context.Context, *SumRequest) (*SumResponse, error) {
+func (UnimplementedAddHelperServer) Sum(context.Context, *MultRequest) (*MultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Sum not implemented")
 }
 
@@ -189,7 +189,7 @@ func RegisterAddHelperServer(s grpc.ServiceRegistrar, srv AddHelperServer) {
 }
 
 func _AddHelper_Sum_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SumRequest)
+	in := new(MultRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -198,10 +198,10 @@ func _AddHelper_Sum_Handler(srv interface{}, ctx context.Context, dec func(inter
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.AddHelper/Sum",
+		FullMethod: "/protob.AddHelper/Sum",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AddHelperServer).Sum(ctx, req.(*SumRequest))
+		return srv.(AddHelperServer).Sum(ctx, req.(*MultRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -210,7 +210,7 @@ func _AddHelper_Sum_Handler(srv interface{}, ctx context.Context, dec func(inter
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var AddHelper_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "proto.AddHelper",
+	ServiceName: "protob.AddHelper",
 	HandlerType: (*AddHelperServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -219,5 +219,5 @@ var AddHelper_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/kv.proto",
+	Metadata: "protob/kv.proto",
 }

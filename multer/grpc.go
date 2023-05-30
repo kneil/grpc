@@ -81,7 +81,7 @@ func (m *GRPCServer) Get(ctx context.Context, req *proto.GetRequest) (*proto.Get
 type GRPCAddHelperClient struct{ client proto.AddHelperClient }
 
 func (m *GRPCAddHelperClient) Sum(a, b int64) (int64, error) {
-	resp, err := m.client.Sum(context.Background(), &proto.SumRequest{
+	resp, err := m.client.Sum(context.Background(), &proto.MultRequest{
 		A: a,
 		B: b,
 	})
@@ -98,10 +98,10 @@ type GRPCAddHelperServer struct {
 	Impl AddHelper
 }
 
-func (m *GRPCAddHelperServer) Sum(ctx context.Context, req *proto.SumRequest) (resp *proto.SumResponse, err error) {
+func (m *GRPCAddHelperServer) Sum(ctx context.Context, req *proto.MultRequest) (resp *proto.MultResponse, err error) {
 	r, err := m.Impl.Sum(req.A, req.B)
 	if err != nil {
 		return nil, err
 	}
-	return &proto.SumResponse{R: r}, err
+	return &proto.MultResponse{R: r}, err
 }

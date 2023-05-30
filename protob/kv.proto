@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 syntax = "proto3";
-package proto;
+package protob;
 
 option go_package = ".";
 
@@ -22,20 +22,20 @@ message PutRequest {
 
 message Empty {}
 
-message SumRequest {
+message MultRequest {
     int64 a = 1;
     int64 b = 2;
 }
 
-message SumResponse {
+message MultResponse {
     int64 r = 1;
 }
 
-service Counter {
+service Multer {
     rpc Get(GetRequest) returns (GetResponse);
     rpc Put(PutRequest) returns (Empty);
 }
 
 service AddHelper {
-    rpc Sum(SumRequest) returns (SumResponse);
+    rpc Sum(MultRequest) returns (MultResponse);
 }
