@@ -1,2 +1,3 @@
 docker run -it -v $PWD:/tmp/repo knesser2/golang:grpc-dev.1.0.1
+#winpty docker run -it -v /$PWD:/tmp/repo artifacts.apps.brd.ro:5012/knesser2/golang:grpc-dev.1.0.1
 

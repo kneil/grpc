@@ -1,0 +1,2 @@
+export COUNTER_PLUGIN="./counter-go-grpc"
+export MULTER_PLUGIN="./multer-go-grpc"
