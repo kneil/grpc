@@ -1,10 +1,12 @@
 #!/bin/sh
 
-cd /tmp/repo/vendor/github.com/hashicorp/go-plugin/examples/bidirectional/
+cd `dirname $0`
 
-rm -f multer
-rm -f protob
+dir=vendor/github.com/hashicorp/go-plugin/examples/bidirectional
 
-ln -s /tmp/repo/multer
-ln -s /tmp/repo/protob
+rm -f $dir/multer
+rm -f $dir/protob
+
+ln -s $PWD/multer $dir/multer
+ln -s $PWD/protob $dir/protob
 

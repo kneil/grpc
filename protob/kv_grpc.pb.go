@@ -4,7 +4,7 @@
 // - protoc             v3.15.8
 // source: protob/kv.proto
 
-package  protob
+package protob
 
 import (
 	context "context"
