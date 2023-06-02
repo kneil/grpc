@@ -98,6 +98,8 @@ type GRPCAddHelperServer struct {
 	Impl AddHelper
 }
 
+// This is the rpc server function which in turn calls the function in the main app.
+
 func (m *GRPCAddHelperServer) Sum(ctx context.Context, req *proto.MultRequest) (resp *proto.MultResponse, err error) {
 	r, err := m.Impl.Sum(req.A, req.B)
 	if err != nil {
