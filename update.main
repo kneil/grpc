@@ -1,0 +1,56 @@
+#!/bin/sh
+
+refs=$( git rev-list $3)
+
+git log -n 1 $3 | grep -v '^Author' | grep -v '^Date' | sed 's/^    //'  > /tmp/git-log.$$
+length=$( cat /tmp/git-log.$$ | wc -l )
+
+# To remove trailing empty line - sed ' ${/^$/d;}'
+
+first_line=$(cat /tmp/git-log.$$ | head -3 | tail -1)
+second_line=$(cat /tmp/git-log.$$ | head -4 | tail -1)
+last_line=$( cat /tmp/git-log.$$ | tail -1 | egrep "(^Changelog: .*|^NoChangelog)" )
+penultimate_line=$( cat /tmp/git-log.$$ | tail -2 | head -1 )   
+
+
+if [ "X$last_line" = "X" ]  ; then
+
+exit 1
+
+fi
+
+if [ ! -z "$penultimate_line" ]  ; then
+echo "$penultimate_line" > /tmp/pen
+exit 22
+fi
+
+
+# No blank second line
+
+if [ ! -z "$second_line" ] ; then
+exit 11
+fi
+
+# No First letter in Caps
+
+if [ X$( echo "$first_line" | grep "^[A-Z]"  | awk '{ print $1 }' ) = X ] ; then
+exit 12
+fi
+
+# Dot at the end of the first line.
+
+if [ X$( echo "$first_line" | grep "\.$" | awk '{ print $1 }' )  != X ] ; then
+exit 13
+fi
+
+# First line too long ( > 50 chars )
+
+first_line_length=$( echo "$first_line" | wc -c)
+
+if [ $first_line_length -gt 50 ] ; then
+
+exit 14
+
+fi
+
+exit 50

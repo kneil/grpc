@@ -1,0 +1,9 @@
+#!/bin/sh
+cd $(dirname $0)
+
+./update.main $* 2>/tmp/e.err >/tmp/u.std
+status=$?
+
+echo "GL-HOOK-ERR: status is $status"
+
+exit $status
